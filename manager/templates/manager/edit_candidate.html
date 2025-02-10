@@ -1,0 +1,10 @@
+{% extends 'manager/base.html' %}
+{% block content %}
+    <h1>Редактировать стажера</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{% url 'candidate_list' %}" class="btn-back">Назад</a>
+{% endblock %}

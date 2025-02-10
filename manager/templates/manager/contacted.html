@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список пользователей</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Список пользователей</h1>
+
+        <input type="text" id="searchInput" placeholder="Поиск по имени или телефону">
+        <button onclick="searchUsers()">Найти</button>
+
+        <div class="users-container">
+            <!-- НЕ СВЯЗАЛИСЬ -->
+            <div class="users-block">
+                <h2 style="color: red;">🔴 Не связались</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Имя</th>
+                            <th>Телефон</th>
+                            <th>Направление</th>
+                            <th>Статус</th>
+                            <th>Действие</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in not_contacted %}
+                        <tr>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.phone }}</td>
+                            <td>{{ user.direction }}</td>
+                            <td>🟡 Думает</td>
+                            <td>
+                                <a href="{% url 'edit_user' user.id %}" class="btn btn-edit">✏️ Редактировать</a>
+                                <a href="{% url 'mark_contacted' user.id %}" class="btn btn-contact">✔️ Связались</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="5">Нет пользователей</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- СВЯЗАЛИСЬ -->
+            <div class="users-block">
+                <h2 style="color: green;">✅ Связались</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Имя</th>
+                            <th>Телефон</th>
+                            <th>Направление</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in contacted %}
+                        <tr>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.phone }}</td>
+                            <td>{{ user.direction }}</td>
+                            <td>🟡 Думает</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4">Нет пользователей</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <a href="{% url 'add_user' %}" class="btn btn-add">➕ Добавить пользователя</a>
+    </div>
+
+    <script>
+        function searchUsers() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                let name = row.children[0].innerText.toLowerCase();
+                let phone = row.children[1].innerText.toLowerCase();
+                row.style.display = (name.includes(input) || phone.includes(input)) ? "" : "none";
+            });
+        }
+    </script>
+</body>
+</html>

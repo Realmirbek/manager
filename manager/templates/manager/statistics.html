@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Статистика стажеров</h1>
+        <ul>
+            <li><strong>Общее количество стажеров:</strong> {{ total_interns }}</li>
+            <li><strong>Стажеры, с которыми связались:</strong> {{ interns_with_mentor }}</li>
+            <li><strong>Стажеры без ментора:</strong> {{ interns_without_mentor }}</li>
+        </ul>
+        <a href="{% url 'candidate_list' %}" class="btn">Назад</a>
+    </div>
+</body>
+</html>
