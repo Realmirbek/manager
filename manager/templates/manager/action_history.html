@@ -14,23 +14,23 @@
         <table>
             <tr>
                 <th>Время</th>
-                <th>Действие</th>
-                <th>Кандидат</th>
-                <th>Ментор</th>
+<!--                <th>Действие</th>-->
+<!--                <th>Кандидат</th>-->
+<!--                <th>Ментор</th>-->
                 <th>Детали</th>
             </tr>
             {% for action in history %}
             <tr>
                 <td>{{ action.timestamp }}</td>
-                <td>{{ action.get_action_type_display }}</td>
-                <td>{{ action.candidate.name }}</td>
-                <td>
-                    {% if action.mentor %}
-                        {{ action.mentor.name }}
-                    {% else %}
-                        Не назначен
-                    {% endif %}
-                </td>
+<!--                <td>{{ action.get_action_type_display }}</td>-->
+<!--                <td>{{ action.candidate.name }}</td>-->
+<!--                <td>-->
+<!--                    {% if action.mentor %}-->
+<!--                        {{ action.mentor.name }}-->
+<!--                    {% else %}-->
+<!--                        Не назначен-->
+<!--                    {% endif %}-->
+<!--                </td>-->
 
                 <td>{{ action.details }}</td>
             </tr>

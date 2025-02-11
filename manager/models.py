@@ -5,6 +5,7 @@ class Mentor(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True, null=True)
     phone = models.CharField(max_length=20, default=0)
+    is_deleted = models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -21,6 +22,8 @@ class Candidate(models.Model):
     STATUS_CHOICES = [
         ('thinking', 'Думает'),
         ('contacted', 'Связались'),
+        ('passed_test', 'Прошел тест'),
+
 
     ]
 
@@ -30,6 +33,7 @@ class Candidate(models.Model):
     direction = models.CharField(max_length=50, choices=DIRECTION_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='thinking')
     mentor = models.ForeignKey(Mentor, on_delete=models.SET_NULL, null=True, blank=True)
+    is_deleted = models.BooleanField(default=False)
 
 
 

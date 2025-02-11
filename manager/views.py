@@ -3,15 +3,23 @@ from .forms import CandidateForm, MentorForm
 from django.shortcuts import render, get_object_or_404, redirect
 
 
-
-
 def candidate_list(request):
     not_contacted = Candidate.objects.filter(status='thinking')
     contacted = Candidate.objects.filter(status='contacted')
+    passed_test_candidates = Candidate.objects.filter(status='passed_test')
+
+
     return render(request, 'manager/candidate_list.html', {
         'not_contacted': not_contacted,
-        'contacted': contacted
+        'contacted': contacted,
+        'passed_test_candidates': passed_test_candidates,
+
     })
+
+def candidate_detail(request, candidate_id):
+    candidate = get_object_or_404(Candidate, id=candidate_id)
+    return render(request, 'manager/candidate_detail.html', {'candidate': candidate})
+
 
 # 📌 Добавление нового стажера
 def add_candidate(request):
@@ -52,6 +60,19 @@ def mark_contacted(request, candidate_id):
     return redirect('candidate_list')
 
 # 📌 Назначение ментора для стажера (только для тех, с кем связались)
+
+def mark_status(request, candidate_id, status):
+    candidate = get_object_or_404(Candidate.objects.filter(is_deleted=False), id=candidate_id)
+    candidate.status = "passed_test"
+    candidate.save()
+
+    ActionHistory.objects.create(
+        action_type=f"candidate_test",
+        candidate=candidate,
+        details=f"Статус стажера {candidate.name} изменен на '{status}'"
+    )
+
+    return redirect('candidate_list')
 
 
 def assign_mentor(request, candidate_id):
@@ -144,6 +165,7 @@ def action_history(request):
     return render(request, 'manager/action_history.html', {
         'history': history
     })
+
 
 
 

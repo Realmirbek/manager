@@ -22,8 +22,8 @@
                     <tr><th>Имя</th><th>Телефон</th><th>Направление</th><th>Статус</th><th>Действие</th></tr>
                     {% for candidate in not_contacted %}
                     <tr>
-                        <td>{{ candidate.name }}</td>
-                        <td>{{ candidate.phone }}</td>
+                        <td><a href="{% url 'candidate_detail' candidate.id %}">{{ candidate.name }}</a></td>
+                        <td><a href="tel:{{ candidate.phone }}">📞</a></td>
                         <td>{{ candidate.direction }}</td>
                         <td>{{ candidate.is_deleted }}</td>
                         <td>🟡 Думает</td>
@@ -31,6 +31,8 @@
                             <a href="{% url 'edit_candidate' candidate.id %}" class="btn">✏️ Редактировать</a>
                             <a href="{% url 'mark_contacted' candidate.id %}" class="btn">✅ Связались</a>
                             <a href="{% url 'delete_permanently' 'candidate' candidate.id %}" onclick="return confirm('Удалить навсегда?');">❌ Удалить</a>
+
+
                         </td>
                     </tr>
                     {% empty %}
@@ -45,8 +47,8 @@
                     <tr><th>Имя</th><th>Телефон</th><th>Направление</th><th>Статус</th><th>Ментор</th><th>Действие</th></tr>
                     {% for candidate in contacted %}
                     <tr>
-                        <td>{{ candidate.name }}</td>
-                        <td>{{ candidate.phone }}</td>
+                        <td><a href="{% url 'candidate_detail' candidate.id %}">{{ candidate.name }}</a></td>
+                        <td><a href="tel:{{ candidate.phone }}">📞</a></td>
                         <td>{{ candidate.direction }}</td>
                         <td>🟡 Думает</td>
                         <td>{{ candidate.mentor.name|default:"Нет ментора" }}</td>
@@ -54,11 +56,38 @@
                         <td>
                             <a href="{% url 'edit_candidate' candidate.id %}" class="btn">✏️ Редактировать</a>
                             <a href="{% url 'assign_mentor' candidate.id %}" class="btn">🎓 Назначить ментора</a>
+                            <a href="{% url 'mark_status' candidate.id 'passed_test' %}" class="btn">✔️ Прошел тест</a>
                             <a href="{% url 'delete_permanently' 'candidate' candidate.id %}" onclick="return confirm('Удалить навсегда?');">❌ Удалить</a>
+
                         </td>
                     </tr>
                     {% empty %}
                     <tr><td colspan="6">Нет пользователей</td></tr>
+                    {% endfor %}
+                </table>
+
+                <div class="passed_test">
+                <h2>Прошел тест</h2>
+                <table>
+                    <tr>
+                        <th>Имя</th><th>Телефон</th><th>Направление</th>><th>Ментор</th><th>Действие</th>
+                    </tr>
+                    {% for candidate in  passed_test_candidates%}
+                    <tr>
+                        <td><a href="{% url 'candidate_detail' candidate.id %}">{{ candidate.name }}</a></td>
+                        <td><a href="tel:{{ candidate.phone }}">📞</a> |
+<!--                            <a href="https://wa.me/{{ candidate.phone }}" target="_blank">💬 WhatsApp</a>-->
+                        </td>
+                        <td>{{ candidate.direction }}</td>
+                        <td>{{ candidate.mentor.name|default:"Нет ментора" }}</td>
+                        <td>
+                            <a href="{% url 'edit_candidate' candidate.id %}" class="btn">✏️ Редактировать</a>
+                            <a href="{% url 'assign_mentor' candidate.id %}" class="btn">🎓 Назначить ментора</a>
+                            <a href="{% url 'delete_permanently' 'candidate' candidate.id %}" onclick="return confirm('Удалить навсегда?');">❌ Удалить</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6">Нет стажеров с этим статусом</td></tr>
                     {% endfor %}
                 </table>
             </div>

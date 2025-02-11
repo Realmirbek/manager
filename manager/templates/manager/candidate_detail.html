@@ -1,0 +1,11 @@
+{% extends "manager/base.html" %}
+
+{% block content %}
+<h2>Профиль кандидата</h2>
+<p><strong>Имя:</strong> {{ candidate.name }}</p>
+<p><strong>Телефон:</strong> {{ candidate.phone }}</p>
+<p><strong>Email:</strong> {{ candidate.email }}</p>
+<p><strong>Направление:</strong> {{ candidate.direction }}</p>
+<p><strong>Статус:</strong> {{ candidate.status }}</p>
+<a href="{% url 'candidate_list' %}" class="btn">⬅ Назад</a>
+{% endblock %}
